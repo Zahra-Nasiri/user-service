@@ -33,3 +33,18 @@ class TestRouter(TestSetup):
         response = response.json()
         user = self.get_user(response["uid"])
         assert user["username"] == self.fake_user_login["username"]
+
+    def test_user_can_get_user_information_by_token(self):
+        query = self.create_fake_user_login_for_token()
+        user = self.get_user(query.inserted_id)
+        user["_id"] = str(user["_id"])
+        token_query = self.create_token(user["_id"])
+        token_object = self.get_token(token_query.inserted_id)
+        token_object["_id"] = str(token_object["_id"])
+        token = token_object["token"]
+        response = test_client.get("/", headers={'Authorization': f"Bearer {token}"})
+        response = response.json()
+        print(response)
+        assert response["first_name"] == user["first_name"]
+        assert response["last_name"] == user["last_name"]
+        assert response["username"] == user["username"]
