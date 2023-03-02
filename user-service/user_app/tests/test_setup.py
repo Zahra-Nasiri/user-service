@@ -8,7 +8,7 @@ class TestSetup(TestConfiguration):
         return bcrypt.hashpw(password.encode() , salt)
 
     fake_user = {
-        "user_name": "test user",
+        "username": "test user",
         "password": "a123gsdga3423",
         "first_name": "test first_name",
         "last_name": "test last_name",
