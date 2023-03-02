@@ -3,8 +3,9 @@ from configurations.base_db import (
     DatabaseConfiguration,
     start_db
 )
-from .models import User
+from .models import User, UpdateUser
 import bcrypt
+from bson.objectid import ObjectId
 
 
 class Datebase(DatabaseConfiguration):
@@ -27,3 +28,12 @@ class Datebase(DatabaseConfiguration):
         query = await base_db.client.user_collection.insert_one(user.dict())
         result = await self.get_user(query.inserted_id)
         return result
+
+    @start_db()
+    async def update_user(self, user_id: str, user: UpdateUser):
+        user_update = {}
+        for key in user.dict():
+            if user.dict()[key]:
+                user_update[key] = user.dict()[key]
+        await base_db.client.user_collection.update_one({"_id": ObjectId(user_id)}, {"$set": user_update})
+        return await self.get_user(ObjectId(user_id))
