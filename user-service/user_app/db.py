@@ -52,3 +52,11 @@ class Datebase(DatabaseConfiguration):
             return None
 
         return await self.create_token(str(query["_id"]))
+
+    @start_db()
+    async def get_user_by_token(self, token: str):
+
+        token_object = await base_db.client.token_collection.find_one({"token": token})
+        if not token_object:
+            return None
+        return await self.get_user(ObjectId(token_object["uid"]))
