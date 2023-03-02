@@ -15,6 +15,11 @@ class TestSetup(TestConfiguration):
         "is_admin": False
     }
 
+    fake_user_update = {
+        "first_name": "updated first_name",
+        "last_name": "updated last_name"
+    }
+
     def create_fake_user(self):
         return self.user_collection.insert_one(self.fake_user)
 
