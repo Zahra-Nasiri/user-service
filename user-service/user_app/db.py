@@ -3,13 +3,13 @@ from configurations.base_db import (
     DatabaseConfiguration,
     start_db
 )
-from .models import User, UpdateUser
+from .models import User, UpdateUser, LoginUser, Token
 import bcrypt
 from bson.objectid import ObjectId
-
+import jwt
 
 class Datebase(DatabaseConfiguration):
-
+    secret_key = "A26744858F3E9DDED3E329F5FA76A"
     async def hash_password(self, password: str):
         salt = b'$2b$12$BP41xhckoXNw9/fhotVpH.'
         return bcrypt.hashpw(password.encode() , salt)
@@ -37,3 +37,18 @@ class Datebase(DatabaseConfiguration):
                 user_update[key] = user.dict()[key]
         await base_db.client.user_collection.update_one({"_id": ObjectId(user_id)}, {"$set": user_update})
         return await self.get_user(ObjectId(user_id))
+
+    @start_db()
+    async def create_token(self, uid: str):
+        token = jwt.encode({"uid": uid}, self.secret_key, algorithm="HS256")
+        token_object = Token(uid=uid, token=token)
+        await base_db.client.token_collection.insert_one(token_object.dict())
+        return token_object.dict()
+
+    @start_db()
+    async def authenticate_user(self, user: LoginUser):
+        query = await base_db.client.user_collection.find_one({"username": user.username})
+        if (not query) or (query["password"] != await self.hash_password(user.password)):
+            return None
+
+        return await self.create_token(str(query["_id"]))

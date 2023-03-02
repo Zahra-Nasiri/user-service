@@ -1,6 +1,6 @@
 from fastapi_utils.cbv import cbv
 from fastapi_utils.inferring_router import InferringRouter
-from .models import User, UpdateUser
+from .models import User, UpdateUser, LoginUser
 from .db import Datebase
 
 router = InferringRouter()
@@ -17,3 +17,7 @@ class UserRouter:
     @router.patch("/{uid}")
     async def update_user(self, user: UpdateUser, uid:str):
         return await  db_client.update_user(uid, user)
+
+    @router.post("/login")
+    async def login(self, user:LoginUser):
+        return await db_client.authenticate_user(user)

@@ -12,3 +12,11 @@ class UpdateUser(BaseModel):
     last_name: str | None = None
     username: str | None = None
     is_admin: str | None = None
+
+class LoginUser(BaseModel):
+    username: str
+    password: str
+
+class Token(BaseModel):
+    uid: str
+    token: str

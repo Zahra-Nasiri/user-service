@@ -26,3 +26,10 @@ class TestRouter(TestSetup):
         user = self.get_user(response["_id"])
         assert user["first_name"] == self.fake_user_update["first_name"]
         assert user["last_name"] == self.fake_user_update["last_name"]
+
+    def test_user_can_login(self):
+        self.create_fake_user_login()
+        response = test_client.post("/login", json=self.fake_user_login)
+        response = response.json()
+        user = self.get_user(response["uid"])
+        assert user["username"] == self.fake_user_login["username"]

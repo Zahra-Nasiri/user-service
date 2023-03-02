@@ -1,5 +1,6 @@
 from configurations.base_test import TestConfiguration
 from bson.objectid import ObjectId
+import bcrypt
 
 class TestSetup(TestConfiguration):
 
@@ -20,8 +21,23 @@ class TestSetup(TestConfiguration):
         "last_name": "updated last_name"
     }
 
+    fake_user_login = {
+        "username": "myuserloginname",
+        "password": "a123gsdga3423"
+    }
+
+    fake_user_create = {
+        "username": "myuserloginname",
+        "password": hash_password("a123gsdga3423"),
+        "first_name": "test first_name",
+        "last_name": "test last_name"
+    }
+
     def create_fake_user(self):
         return self.user_collection.insert_one(self.fake_user)
 
     def get_user(self, user_id):
         return self.user_collection.find_one({"_id": ObjectId(user_id)})
+
+    def create_fake_user_login(self):
+        return self.user_collection.insert_one(self.fake_user_create)
