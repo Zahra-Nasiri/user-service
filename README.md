@@ -95,6 +95,9 @@ Start the server
   PATCH /{uid}
 ```
 
+#### get single user
+
+
 ```http
   GET /
 ```
@@ -102,7 +105,7 @@ Start the server
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `token` | `string` | **Required**. Your token |
+| `Authorization` | `string` | **Required**. Your token |
 
 ## Authors
 
