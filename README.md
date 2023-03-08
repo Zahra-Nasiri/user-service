@@ -34,7 +34,7 @@ Install my-project with pip
 
 ```bash
   python -m venv venv
-  venv\scripts\avtivate
+  venv\scripts\activate
   pip install -r requirements.txt
 ```
 
@@ -64,7 +64,9 @@ Go to the project directory
 Install dependencies
 
 ```bash
-  pip install requirements.txt
+  python -m venv venv
+  venv\scripts\activate
+  pip install -r requirements.txt
 ```
 
 Start the server
