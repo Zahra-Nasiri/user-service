@@ -1,7 +1,7 @@
 
 # user-service
 
-This is user-service of library project and has connection with [communication-lyer](https://github.com/Zahra-Nasiri/communication-layer)
+This is user-service of library project and has connection with [communication-layer](https://github.com/Zahra-Nasiri/communication-layer)
  and [book-service](https://github.com/Zahra-Nasiri/book-service)
  projects.
 
